@@ -8,7 +8,8 @@ This is the unoffical loader originally forked from ztec for composer from http:
 
 ## Version 4.2.0
 * Compatible PHP 7.1
-======
+
+
 This is a port for Composer users to use JpGraph as a Vendor library
 
 use JpGraph\JpGraph::load(); and JpGraph\JpGraph::module('moduleName'); to load required modules
