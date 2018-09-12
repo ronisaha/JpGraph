@@ -19,7 +19,7 @@ require_once('jpgraph_theme.inc.php');
 require_once('gd_image.inc.php');
 
 // Version info
-define('JPG_VERSION','4.2.0');
+define('JPG_VERSION','4.2.3');
 
 // Minimum required PHP version
 define('MIN_PHPVERSION','5.1.0');
@@ -740,11 +740,6 @@ class Graph {
     // Rotate the graph 90 degrees and set the margin
     // when we have done a 90 degree rotation
     function Set90AndMargin($lm=0,$rm=0,$tm=0,$bm=0) {
-        $lm = $lm ==0 ? floor(0.2 * $this->img->width)  : $lm ;
-        $rm = $rm ==0 ? floor(0.1 * $this->img->width)  : $rm ;
-        $tm = $tm ==0 ? floor(0.2 * $this->img->height) : $tm ;
-        $bm = $bm ==0 ? floor(0.1 * $this->img->height) : $bm ;
-
         $adj = ($this->img->height - $this->img->width)/2;
         $this->img->SetMargin($tm-$adj,$bm-$adj,$rm+$adj,$lm+$adj);
         $this->img->SetCenter(floor($this->img->width/2),floor($this->img->height/2));
@@ -1367,7 +1362,7 @@ class Graph {
 
         // Now reconstruct any user URL argument
         reset($_GET);
-        while( list($key,$value) = each($_GET) ) {
+        foreach ($_GET as $key => $value) {
             if( is_array($value) ) {
                 foreach ( $value as $k => $v ) {
                     $urlarg .= '&amp;'.$key.'%5B'.$k.'%5D='.urlencode($v);
@@ -1382,7 +1377,7 @@ class Graph {
         // but there is little else we can do. One idea for the
         // future might be recreate the POST header in case.
         reset($_POST);
-        while( list($key,$value) = each($_POST) ) {
+        foreach ($_POST as $key => $value) {
             if( is_array($value) ) {
                 foreach ( $value as $k => $v ) {
                     $urlarg .= '&amp;'.$key.'%5B'.$k.'%5D='.urlencode($v);

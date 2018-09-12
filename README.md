@@ -6,7 +6,7 @@ JpGraph is an Object-Oriented Graph creating library for PHP5 (>=5.1) and PHP7.0
 This is the unoffical loader originally forked from ztec for composer from http://jpgraph.net/, I'll try my best to update this repository as soon as updates come out.
 
 
-## Version 4.2.0
+## Version 4.2.3
 * Compatible PHP 7.1
 
 
