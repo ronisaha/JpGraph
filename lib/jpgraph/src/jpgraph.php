@@ -19,7 +19,7 @@ require_once('jpgraph_theme.inc.php');
 require_once('gd_image.inc.php');
 
 // Version info
-define('JPG_VERSION','4.2.3');
+define('JPG_VERSION','4.2.4');
 
 // Minimum required PHP version
 define('MIN_PHPVERSION','5.1.0');
@@ -1285,9 +1285,11 @@ class Graph {
             }
         }
 
-        $n = count($this->iTables);
-        for( $i=0; $i < $n; ++$i ) {
-            $csim .= $this->iTables[$i]->GetCSIMareas();
+        if($this->iTables != null) {
+            $n = count($this->iTables);
+            for ($i = 0; $i < $n; ++$i) {
+                $csim .= $this->iTables[$i]->GetCSIMareas();
+            }
         }
 
         return $csim;

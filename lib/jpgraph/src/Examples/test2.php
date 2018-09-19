@@ -1,64 +1,42 @@
 <?php // content="text/plain; charset=utf-8"
-DEFINE("TTF_DIR", __DIR__ . "/fonts/truetype/");
 
-require_once('jpgraph/jpgraph.php');
-require_once('jpgraph/jpgraph_line.php');
-require_once('jpgraph/jpgraph_bar.php');
+require_once ('jpgraph/jpgraph.php');
+require_once ('jpgraph/jpgraph_bar.php');
 
-function addPercent($aVal)
-{
-    return round($aVal) . '%';
-}
+$data1y=array(-8,8,9,3,5,6);
+$data2y=array(18,2,1,7,5,4);
 
-$datay = array(6, 6.3, 5.7);
+// Create the graph. These two calls are always required
+$graph = new Graph(500,400);
+$graph->SetScale("textlin");
 
-// Size of graph
-$width = 600;
-$height = 900;
+$graph->SetShadow();
+$graph->img->SetMargin(40,30,20,40);
 
-// Set the basic parameters of the graph
-$graph = new Graph($width, $height);
-$graph->SetScale('textlin');
+// Create the bar plots
+$b1plot = new BarPlot($data1y);
+$b1plot->SetFillColor("orange");
+$b1plot->value->Show();
+$b2plot = new BarPlot($data2y);
+$b2plot->SetFillColor("blue");
+$b2plot->value->SetColor("black");
+$b2plot->value->SetFont(FF_FONT1,FS_BOLD);
+$b2plot->value->Show();
 
-$top = 0;
-$bottom = 0;
-$left = 0;
-$right = 0;
-//$graph->SetMargin($left, $right, $top, $bottom);
-$graph->Set90AndMargin($left, $right, $top, $bottom);
+// Create the grouped bar plot
+$gbplot = new AccBarPlot(array($b1plot,$b2plot));
 
-$graph->SetImgFormat('png', 100);
-$graph->img->SetAntiAliasing();
-$graph->img->SetQuality(100);
+// ...and add it to the graPH
+$graph->Add($gbplot);
 
-// Setup labels
-$lbl = array("Dezember 2015", "Juni 2016", "Dezember 2016");
-$graph->xaxis->SetFont(FF_DEFAULT, FS_NORMAL, 12);
-$graph->yaxis->SetLabelFormatCallback('addPercent');
-$graph->yaxis->SetFont(FF_DEFAULT, FS_NORMAL, 12);
-$graph->yaxis->HideLine(true);
+$graph->title->Set("Accumulated bar plots");
+$graph->xaxis->title->Set("X-title");
+$graph->yaxis->title->Set("Y-title");
 
-$graph->yaxis->SetTickPositions([0, 1, 2, 3, 4, 5, 6, 7], []);
-$graph->ygrid->Show(true, false);
-$graph->ygrid->SetFill(false);
-$graph->yaxis->HideLine(true);
-$graph->yaxis->HideTicks(true, true);
+$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 
-$graph->SetBox(false);
-
-
-// Create a bar pot
-$bplot = new BarPlot($datay);
-$graph->Add($bplot);
-
-$bplot->SetColor('deepskyblue4');
-$bplot->SetLegend('Leerstandsquote am Periodenende');
-$bplot->SetFillColor('deepskyblue4');
-$bplot->SetWidth(0.25);
-$bplot->SetYMin(0);
-
-$graph->legend->SetPos(0, 0.999999, 'left', 'bottom');
-$graph->legend->SetFont(FF_DEFAULT);
-$graph->legend->SetLineWeight(2);
-
-$graph->Stroke();
+// Display the graph
+$graph->StrokeCSIM();
+?>
