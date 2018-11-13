@@ -1,67 +1,84 @@
 <?php // content="text/plain; charset=utf-8"
-DEFINE("TTF_DIR", __DIR__ . "/fonts/truetype/");
+require_once ('jpgraph/jpgraph.php');
+require_once ('jpgraph/jpgraph_line.php');
 
-require_once('jpgraph/jpgraph.php');
-require_once('jpgraph/jpgraph_line.php');
-require_once('jpgraph/jpgraph_bar.php');
+$datay1 = array(20,15,23,15);
+$datay2 = array(12,9,42,8);
+$datay3 = array(5,19,32,20);
+$datay4 = array(23,17,40,18);
+$datay5 = array(10,17,18,24);
+$datay6 = array(30,22,50,14);
+$datay7 = array(9,28,27,23);
 
-function addPercent($aVal)
-{
-    return round($aVal) . '%';
-}
+// Setup the graph
+$graph = new Graph(500,600);
+$graph->SetScale("textlin");
 
-$datay = array(6, 6.3, 5.7);
+$theme_class=new UniversalTheme;
 
-// Size of graph
-$width = 600;
-$height = 900;
-
-// Set the basic parameters of the graph
-$graph = new Graph($width, $height);
-$graph->SetScale('textlin');
-
-$top = 50;
-$bottom = 30;
-$left = 50;
-$right = 30;
-
-$graph->Set90AndMargin($left, $right, $top, $bottom);
-
-// normal
-//$graph->SetMargin($left, $right, $top, $bottom);
-
-$graph->SetImgFormat('png', 100);
-$graph->img->SetAntiAliasing();
-$graph->img->SetQuality(100);
-
-// Setup labels
-$lbl = array("Dezember 2015", "Juni 2016", "Dezember 2016");
-$graph->xaxis->SetFont(FF_DEFAULT, FS_NORMAL, 12);
-$graph->yaxis->SetLabelFormatCallback('addPercent');
-$graph->yaxis->SetFont(FF_DEFAULT, FS_NORMAL, 12);
-$graph->yaxis->HideLine(true);
-
-$graph->yaxis->SetTickPositions([0, 1, 2, 3, 4, 5, 6, 7], []);
-$graph->ygrid->Show(true, false);
-$graph->ygrid->SetFill(false);
-$graph->yaxis->HideLine(true);
-$graph->yaxis->HideTicks(true, true);
-
+$graph->SetTheme($theme_class);
+$graph->img->SetAntiAliasing(false);
+$graph->title->Set('Filled Y-grid');
 $graph->SetBox(false);
 
+$graph->SetMargin(40,20,36,123);
 
-// Create a bar pot
-$bplot = new BarPlot($datay);
-$graph->Add($bplot);
+$graph->img->SetAntiAliasing();
 
-$bplot->SetColor('deepskyblue4');
-$bplot->SetLegend('Leerstandsquote am Periodenende');
-$bplot->SetFillColor('deepskyblue4');
-$bplot->SetWidth(0.25);
-$bplot->SetYMin(0);
+$graph->yaxis->HideZeroLabel();
+$graph->yaxis->HideLine(false);
+$graph->yaxis->HideTicks(false,false);
 
-$graph->legend->SetPos(0, 0.999999, 'left', 'bottom');
-$graph->legend->SetFont(FF_DEFAULT);
-$graph->legend->SetLineWeight(2);
+$graph->xgrid->Show();
+$graph->xgrid->SetLineStyle("solid");
+$graph->xaxis->SetTickLabels(array('A','B','C','D'));
+$graph->xgrid->SetColor('#E3E3E3');
 
+// Create the first line
+$p1 = new LinePlot($datay1);
+$graph->Add($p1);
+$p1->SetColor("#6495ED");
+$p1->SetLegend('Line 1');
+
+// Create the second line
+$p2 = new LinePlot($datay2);
+$graph->Add($p2);
+$p2->SetColor("#B22222");
+$p2->SetLegend('Line 2');
+
+// Create the third line
+$p3 = new LinePlot($datay3);
+$graph->Add($p3);
+$p3->SetColor("#FF1493");
+$p3->SetLegend('Line 3');
+
+// Create the third line
+$p4 = new LinePlot($datay4);
+$graph->Add($p4);
+$p4->SetColor("#394495");
+$p4->SetLegend('Line 4');
+
+// Create the third line
+$p5 = new LinePlot($datay5);
+$graph->Add($p5);
+$p5->SetColor("#3F8793");
+$p5->SetLegend('Line 5');
+
+// Create the third line
+$p6 = new LinePlot($datay6);
+$graph->Add($p6);
+$p6->SetColor("#EE1493");
+$p6->SetLegend('Line 6');
+
+// Create the third line
+$p7 = new LinePlot($datay7);
+$graph->Add($p7);
+$p7->SetColor("#DC8123");
+$p7->SetLegend('Line 7');
+
+$graph->legend->SetFrameWeight(1);
+
+// Output line
 $graph->Stroke();
+
+?>
