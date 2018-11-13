@@ -19,7 +19,7 @@ require_once('jpgraph_theme.inc.php');
 require_once('gd_image.inc.php');
 
 // Version info
-define('JPG_VERSION','4.2.4');
+define('JPG_VERSION','4.2.5');
 
 // Minimum required PHP version
 define('MIN_PHPVERSION','5.1.0');
@@ -5006,7 +5006,7 @@ class LinearScale {
             $this->off=$img->left_margin;
             $this->scale_factor = 0;
             if( $this->world_size > 0 ) {
-                $this->scale_factor=$this->world_abs_size/($this->world_size*1.0);
+                $this->scale_factor=$this->world_abs_size/($this->world_size*0.999999);
             }
         }
         else { // y scale
@@ -5014,7 +5014,7 @@ class LinearScale {
             $this->off=$img->top_margin+$this->world_abs_size;
             $this->scale_factor = 0;
             if( $this->world_size > 0 ) {
-                $this->scale_factor=-$this->world_abs_size/($this->world_size*1.0);
+                $this->scale_factor=-$this->world_abs_size/($this->world_size*0.999999);
             }
         }
         $size = $this->world_size * $this->scale_factor;
