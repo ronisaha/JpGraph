@@ -1,48 +1,54 @@
-<?php
+<?php // content="text/plain; charset=utf-8"
 require_once ('jpgraph/jpgraph.php');
-require_once ('jpgraph/jpgraph_bar.php');
 require_once ('jpgraph/jpgraph_line.php');
-require_once ('jpgraph/jpgraph_date.php');
 
-$graph_sdh = new Graph(1024, 450);
-$graph_sdh->SetMargin(50, 30, 50, 50);
-$graph_sdh->SetMarginColor('white');
-$graph_sdh->SetScale('dateint');
-$graph_sdh->title->Set('OBSERVATIONS');
+$datay1 = 	array(50, 60, 70);
+$datay2 = 	array(20, 30, 40);
+$datay3 = 	array(50, 60, 70);
 
-// Setup the y-axis to show currency values
-$graph_sdh->yaxis->SetLabelFormatCallback('number_format');
-$graph_sdh->yaxis->SetLabelFormat('%s');
+// Create the graph. These two calls are always required
+$graph = new Graph(300,200);
+$graph->clearTheme();
+$graph->SetScale("textlin");
+$graph->SetShadow();
+$graph->img->SetMargin(40,30,20,40);
 
-//Use hour:minute format for the labels
-$graph_sdh->xaxis->scale->SetDateFormat('H:i');
-$graph_sdh->xgrid->Show();
-$graph_sdh->xaxis->SetLabelAngle(90);
+// Create the linear plots for each category
+$dplot[] = new LinePLot($datay1);
+$dplot[] = new LinePLot($datay2);
+$dplot[] = new LinePLot($datay3);
 
-// Force labels to only be displayed every 10 minutes
-$graph_sdh->xaxis->scale->ticks->Set(INTERVAL * 10);
+$dplot[0]->value->Show();
+$dplot[0]->value->SetFont(FF_DEFAULT, FS_NORMAL, 6);
+//$dplot[0]->value->SetMargin(-10);
+$dplot[0]->value->SetAlign('center', 'center');
+$dplot[1]->value->Show();
+$dplot[1]->value->SetFont(FF_DEFAULT, FS_NORMAL, 6);
+$dplot[1]->value->SetAlign('center', 'top');
+$dplot[2]->value->Show();
+//$dplot[2]->value->SetMargin(-10);
+$dplot[2]->value->SetFont(FF_DEFAULT, FS_NORMAL, 6);
+$dplot[2]->value->SetAlign('center', 'top');
 
-// Adjust the start time for an "even" 5 minute, i.e. 5,10,15,20,25, ...
-$graph_sdh->xaxis->scale->SetTimeAlign(MINADJ_10);
+$dplot[0]->SetFillColor("red");
+$dplot[1]->SetFillColor("blue");
+$dplot[2]->SetFillColor("green");
 
-$line_systolic = new LinePlot($systolic, $time);
-$line_systolic->SetLegend('SYSTOLIC');
-$line_diastolic = new LinePlot($diastolic, $time);
-$line_diastolic->SetLegend('DIASTOLIC');
-$line_heartrate = new LinePlot($heartrate, $time);
-$line_heartrate->SetLegend('HEART RATE');
-$line_temperature = new LinePlot($temperature, $time);
-$line_temperature->SetLegend('TEMPERATURE');
+// Create the accumulated graph
+$accplot = new AccLinePlot($dplot);
 
-$graph_sdh->Add($line_systolic);
-$graph_sdh->Add($line_diastolic);
-$graph_sdh->Add($line_heartrate);
-$graph_sdh->Add($line_temperature);
-$line_systolic->mark->SetType(MARK_DTRIANGLE);
-$line_diastolic->mark->SetType(MARK_UTRIANGLE);
-$line_heartrate->mark->SetType(MARK_CIRCLE);
-$line_temperature->mark->SetType(MARK_DIAMOND);
-$graph_sdh->legend->SetAbsPos(20, 0, 'right', 'top');
-$graph_sdh->Stroke();
+// Add the plot to the graph
+$graph->Add($accplot);
 
+$graph->xaxis->SetTextTickInterval(2);
+$graph->title->Set("Example 17");
+$graph->xaxis->title->Set("X-title");
+$graph->yaxis->title->Set("Y-title");
+
+$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+
+// Display the graph
+$graph->Stroke();
 ?>
