@@ -6,8 +6,8 @@ JpGraph is an Object-Oriented Graph creating library for PHP5 (>=5.1) and PHP7.0
 This is the unoffical loader originally forked from ztec for composer from http://jpgraph.net/, I'll try my best to update this repository as soon as updates come out.
 
 
-## Version 4.2.8
-* Remove use of '$this' in static context
+## Version 4.2.10
+* Fix the issue Bar graph is not rendered properly when the data is single value
 
 
 This is a port for Composer users to use JpGraph as a Vendor library
