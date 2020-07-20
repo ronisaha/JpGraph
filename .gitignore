@@ -1,0 +1,5 @@
+# IDE
+.nbproject
+.idea
+vendor
+composer.lock

@@ -1,0 +1,3 @@
+/lib/jpgraph/docs export-ignore
+/lib/jpgraph/src/Examples export-ignore
+/.gitignore export-ignore
